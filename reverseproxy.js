@@ -1,8 +1,3 @@
-/*
- Made by Jace Dohl for Alex Vargas
- https://t.me/ibrahimsfreethings
-*/
-
 // Libraries
 const fs = require('fs');
 const http = require('http');
