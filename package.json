@@ -1,0 +1,15 @@
+{
+  "name": "WenisTravel",
+  "version": "1.0.0",
+  "description": "A simple reverse proxy server.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "iStart": "npm install && npm run start"
+  },
+  "dependencies": {
+    "axios": "^0.21.1"
+  },
+  "author": "",
+  "license": "ISC"
+}
