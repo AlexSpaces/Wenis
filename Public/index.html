@@ -30,15 +30,15 @@
             margin-top: 10px;
             border: none;
             border-radius: 4px;
-            transition: 0.3s; /* transition for smoother effects */
+            transition: 0.3s;
         }
 
         input::placeholder {
-            transition: 0.3s; /* for  animation */
+            transition: 0.3s;
         }
 
         input:focus::placeholder {
-            opacity: 0.5; /* reduces opacity of placeholder text on focus */
+            opacity: 0.5;
         }
 
         input:focus {
@@ -50,15 +50,14 @@
             background-color: #4CAF50;
             color: white;
             cursor: pointer;
-            position: relative; /* for loading spinner positioning */
-            overflow: hidden; /* to hide overflowing content */
+            position: relative;
+            overflow: hidden;
         }
 
         button:hover {
             background-color: #45a049;
         }
 
-        /* Loading spinner */
         .spinner {
             border: 4px solid rgba(255, 255, 255, 0.3);
             border-radius: 50%;
@@ -70,31 +69,73 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            display: none; /* hidden by default */
+            display: none;
         }
 
         @keyframes spin {
             0% { transform: translate(-50%, -50%) rotate(0deg); }
             100% { transform: translate(-50%, -50%) rotate(360deg); }
         }
+
+        .toggle-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 48px;
+            height: 28px;
+            background-color: #ccc;
+            border-radius: 14px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-right: 10px;
+        }
+
+        .toggle-switch:before {
+            content: '';
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 22px;
+            height: 22px;
+            background-color: #fff;
+            border-radius: 50%;
+            transition: transform 0.3s;
+        }
+
+        .toggle-switch.on {
+            background-color: #4CAF50;
+        }
+
+        .toggle-switch.on:before {
+            transform: translateX(20px);
+        }
     </style>
 </head>
 <body> 
     <div class="container">
+        <div class="toggle-container">
+            <div class="toggle-switch" onclick="toggleStealthMode()">
+            </div>
+        </div>
         <h1><img src="https://raw.githubusercontent.com/DADSociety/Wenis/main/Public/1x4LogoXS.png" alt="W Icon" style="height: 1em; vertical-align: middle;"></h1>
         <form id="urlForm" action="javascript:void(0);">
             <input type="url" id="urlInput" placeholder="https://example.com">
             <button onclick="redirectToWenis()">Go <div class="spinner"></div></button>
         </form>
-        <div class="toggle-switch" onclick="toggleStealthMode()">
-            <div class="toggle-switch-label">Stealth Mode</div>
-        </div>
     </div>
     <script>
         let stealthMode = false;
 
         function toggleStealthMode() {
             const toggleSwitch = document.querySelector('.toggle-switch');
+            const encryptionAnimation = document.getElementById('encryptionAnimation');
+            
             stealthMode = !stealthMode;
 
             if (stealthMode) {
@@ -102,6 +143,7 @@
                 playEncryptionAnimation();
             } else {
                 toggleSwitch.classList.remove('on');
+                encryptionAnimation.style.display = 'none';
             }
         }
 
@@ -110,7 +152,7 @@
             const container = document.querySelector('.container');
             const animationDuration = 3000;
 
-            container.style.backgroundImage = 'url("https://media.tenor.com/nlEH9PLmNVcAAAAd/my-hacker-screen-i-actualy-hacked.gif")';
+            container.style.backgroundImage = 'url("encryption_stock_footage.gif")';
             container.style.backgroundSize = 'cover';
             container.style.backgroundRepeat = 'no-repeat';
 
