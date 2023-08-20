@@ -19,17 +19,6 @@ function replaceUrls(text, originalURL) {
   });
 }
 
-// Clean up from development
-fs.access('index.html', fs.constants.F_OK, (err) => {
-  if (!err) {
-    fs.rm('index.html', (err) => {
-      if (err) {
-        console.error("Error deleting index.html:", err);
-      }
-    });
-  }
-});
-
 // Create http server
 const server = http.createServer((req, res) => {
   var spliturl = req.url.split('?');
@@ -40,12 +29,12 @@ const server = http.createServer((req, res) => {
       res.writeHead(200, {
         'Content-Type': 'text/plain'
       });
-      res.write('Use endpoint \'/proxy?url=https://urltoproxy.com/\' to proxy websites.');
+      res.write('Use endpoint \'/Travel?url=https://urltoproxy.com/\' to proxy websites.');
       res.end();
       break;
 
     // Reverse Proxy Endpoint
-    case '/proxy':
+    case '/Travel':
       if (qs['url']) {
         var toProxy = qs['url'];
         axios.get(toProxy)
