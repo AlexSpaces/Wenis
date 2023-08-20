@@ -134,40 +134,35 @@
 
         function toggleStealthMode() {
             const toggleSwitch = document.querySelector('.toggle-switch');
-            const encryptionAnimation = document.getElementById('encryptionAnimation');
-            
-            stealthMode = !stealthMode;
-
-            if (stealthMode) {
+            // const encryptionAnimation = document.getElementById('encryptionAnimation');
+            if (stealthMode == false) {
+                stealthMode = true;
                 toggleSwitch.classList.add('on');
-                playEncryptionAnimation();
+                setEncryptionAnimation(true);
             } else {
+                stealthMode = false;
                 toggleSwitch.classList.remove('on');
-                encryptionAnimation.style.display = 'none';
+                setEncryptionAnimation(false);
             }
         }
 
-        function playEncryptionAnimation() {
-            const url = document.getElementById('urlInput').value;
-            const container = document.querySelector('.container');
-            const animationDuration = 3000;
+        function setEncryptionAnimation(bool) {
+            if (bool == true) {
+                // const url = document.getElementById('urlInput').value;
+                const container = document.querySelector('.container');
 
-            container.style.backgroundImage = 'url("encryption_stock_footage.gif")';
-            container.style.backgroundSize = 'cover';
-            container.style.backgroundRepeat = 'no-repeat';
-
-            setTimeout(function() {
+                container.style.backgroundImage = 'url("encryption_stock_footage.gif")';
+                container.style.backgroundSize = 'cover';
+                container.style.backgroundRepeat = 'no-repeat'
+            } else if (bool == false) {
                 container.style.backgroundImage = 'none';
-                if (url && stealthMode) {
-                    sendUrlThroughPostRequest(url);
-                }
-            }, animationDuration);
+            }
         }
 
         function sendUrlThroughPostRequest(url) {
             const data = JSON.stringify({ url: url });
 
-            fetch('https://your-api-endpoint.com/post-url', {
+            fetch('https://wenis.lol/Travel', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -197,6 +192,9 @@
             spinner.style.display = 'inline-block';
             
             setTimeout(function() {
+                if (stealthMode && url) {
+                    return sendUrlThroughPostRequest(url);
+                }
                 if (url) {
                     window.location.href = `https://wenis.lol/Travel?url=${url}`;
                 } else {
