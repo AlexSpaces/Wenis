@@ -9,71 +9,78 @@ const urlPattern = /['"]\/(.+?)['"]|['"](http:\/\/.+?|https:\/\/.+?)['"]/g;
 
 // Function to replace URLs with modified URLs
 function replaceUrls(text, originalURL) {
-  return text.replace(urlPattern, (match, pathMatch, httpMatch) => {
-    if (pathMatch) {
-      return `"/proxy?url=${originalURL}${pathMatch}"`;
-    } else if (httpMatch) {
-      return `"/proxy?url=${httpMatch}"`;
-    }
-    return match;
-  });
+    return text.replace(urlPattern, (match, pathMatch, httpMatch) => {
+        if (pathMatch) {
+            return `"/proxy?url=${originalURL}${pathMatch}"`;
+        } else if (httpMatch) {
+            return `"/proxy?url=${httpMatch}"`;
+        }
+        return match;
+    });
 }
 
 // Create http server
 const server = http.createServer((req, res) => {
-  var spliturl = req.url.split('?');
-  var qs = querystring.decode(spliturl[1]);
-  switch (spliturl[0]) {
-    // Default Endpoint
-    case '/':
-      res.writeHead(200, {
-        'Content-Type': 'text/plain'
-      });
-      res.write('Use endpoint \'/Travel?url=https://urltoproxy.com/\' to proxy websites.');
-      res.end();
-      break;
+    var spliturl = req.url.split('?');
+    var qs = querystring.decode(spliturl[1]);
+    switch (spliturl[0]) {
+        // Default Endpoint
+        case '/':
+            fs.readFile('./Public/index.html', 'utf8', (error, data) => {
+                if (error) {
+                    console.log(error);
+                    res.writeHead(200, {
+                        'Content-Type': 'text/plain'
+                    });
+                    res.write('Failed to load html, Please use the endpoint /Travel?url=https://example.com/ until this issue can be resolved.')
+                    res.end();
+                }
+                if (data) {
+                    res.writeHead(200, {
+                        'Content-Type': 'text/html'
+                    })
+                    res.write(data, 'utf8')
+                    res.end();
+                }
+            })
+            break;
 
-    // Reverse Proxy Endpoint
-    case '/Travel':
-      if (qs['url']) {
-        var toProxy = qs['url'];
-        axios.get(toProxy)
-          .then(response => {
-            const modifiedHtml = replaceUrls(response.data, toProxy);
-            res.writeHead(200, {
-              'Content-Type': 'text/html'
-            });
-            res.write(modifiedHtml);
-            fs.writeFile('index.html', modifiedHtml, (err) => {
-              if (err) {
-                console.error("Error writing index.html:", err);
-              }
-            });
-            res.end();
-          })
-          .catch(error => {
-            console.error(error);
-            res.writeHead(500);
-            res.write('Error proxying the URL.\n' + error.code);
-            res.end();
-          });
-      } else {
-        res.writeHead(400);
-        res.write('Missing QueryString Parameters.');
-        res.end();
-      }
-      break;
+            // Reverse Proxy Endpoint
+        case '/Travel':
+            if (qs['url']) {
+                var toProxy = qs['url'];
+                axios.get(toProxy)
+                    .then(response => {
+                        const modifiedHtml = replaceUrls(response.data, toProxy);
+                        res.writeHead(200, {
+                            'Content-Type': 'text/html'
+                        });
+                        res.write(modifiedHtml);
+                        res.end();
+                    })
+                    .catch(error => {
+                        console.error(error);
+                        res.writeHead(500);
+                        res.write('Error proxying the URL.\n' + error.code);
+                        res.end();
+                    });
+            } else {
+                res.writeHead(400);
+                res.write('Missing QueryString Parameters.');
+                res.end();
+            }
+            break;
 
-    // Unknown endpoint
-    default:
-      res.writeHead(404);
-      res.write('Page does not exist.');
-      res.end();
-      break;
-  }
+            // Unknown endpoint
+        default:
+            res.writeHead(404);
+            res.write('Page does not exist.');
+            res.end();
+            break;
+    }
 });
 
 // Start listening
 server.listen(8080, () => {
-  console.log('Server listening on port 8080 :) ');
+    console.log('Server listening on port 8080 :) ');
 });
