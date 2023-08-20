@@ -2,7 +2,7 @@
 const fs = require('fs');
 const http = require('http');
 const axios = require('axios');
-const querystring = require('node:querystring');
+const querystring = require('querystring');
 
 // Regular expression pattern to match URLs
 const urlPattern = /['"]\/(.+?)['"]|['"](http:\/\/.+?|https:\/\/.+?)['"]/g;
