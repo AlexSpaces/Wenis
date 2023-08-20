@@ -32,7 +32,7 @@ const server = http.createServer((req, res) => {
                     res.writeHead(200, {
                         'Content-Type': 'text/plain'
                     });
-                    res.write('Failed to load html, Please use the endpoint /Travel?url=https://example.com/ until this issue can be resolved.')
+                    res.write(`Failed to load html, Please use the endpoint /Travel?url=https://example.com/ until this issue can be resolved.\nError Code: ${error.code}`)
                     res.end();
                 }
                 if (data) {
@@ -61,12 +61,12 @@ const server = http.createServer((req, res) => {
                     .catch(error => {
                         console.error(error);
                         res.writeHead(500);
-                        res.write('Error proxying the URL.\n' + error.code);
+                        res.write(`Error proxying the URL.\n${error.code}`);
                         res.end();
                     });
             } else {
                 res.writeHead(400);
-                res.write('Missing QueryString Parameters.');
+                res.write('Missing Query String Parameters.');
                 res.end();
             }
             break;
