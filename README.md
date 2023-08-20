@@ -1,4 +1,4 @@
-# ![image](./W_Readme.PNG)enis.LOL
+# ![image](./Public/icon.png)enis.LOL
 **i just hate restrictions, Hate Restrictions TOGETHER With   
 ![image](./W_Readme.PNG)enis.LoL**
 
