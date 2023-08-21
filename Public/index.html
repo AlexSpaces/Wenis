@@ -159,25 +159,6 @@
             }
         }
 
-        function sendUrlThroughPostRequest(url) {
-            const data = JSON.stringify({ url: url });
-
-            fetch('https://wenis.lol/Travel', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: data
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log('POST request response:', data);
-            })
-            .catch(error => {
-                console.error('Error sending POST request:', error);
-            });
-        }
-
         document.getElementById('urlForm').addEventListener('submit', function(event) {
             event.preventDefault();
             redirectToWenis();
@@ -193,7 +174,13 @@
             
             setTimeout(function() {
                 if (stealthMode && url) {
-                    return sendUrlThroughPostRequest(url);
+                    fetch('https://wenis.lol/Travel', {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'ToProxyUrl': url
+                        }
+                    })
                 }
                 if (url) {
                     window.location.href = `https://wenis.lol/Travel?url=${url}`;

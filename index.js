@@ -47,6 +47,24 @@ const server = http.createServer((req, res) => {
 
             // Reverse Proxy Endpoint
         case '/Travel':
+            if (req.headers['ToProxyUrl']) {
+                var toProxy = req.headers['ToProxyUrl'];
+                axios.get(toProxy)
+                    .then(response => {
+                        const modifiedHtml = replaceUrls(response.data, toProxy);
+                        res.writeHead(200, {
+                            'Content-Type': 'text/html'
+                        });
+                        res.write(modifiedHtml);
+                        res.end();
+                    })
+                    .catch(error => {
+                        console.error(error);
+                        res.writeHead(500);
+                        res.write(`Error proxying the URL.\n${error.code}`);
+                        res.end();
+                    });
+            };
             if (qs['url']) {
                 var toProxy = qs['url'];
                 axios.get(toProxy)
