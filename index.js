@@ -5,15 +5,15 @@ const axios = require('axios');
 const querystring = require('querystring');
 
 // Regular expression pattern to match URLs
-const urlPattern = /['"]\/(.+?)['"]|['"](http:\/\/.+?|https:\/\/.+?)['"]/g;
+const urlPattern = /['"][.]\/(.+?)['"]|['"](http:\/\/.+?|https:\/\/.+?)['"]/g;
 
 // Function to replace URLs with modified URLs
 function replaceUrls(text, originalURL) {
     return text.replace(urlPattern, (match, pathMatch, httpMatch) => {
         if (pathMatch) {
-            return `"/proxy?url=${originalURL}${pathMatch}"`;
+            return `"/Travel?url=${originalURL}${pathMatch}"`;
         } else if (httpMatch) {
-            return `"/proxy?url=${httpMatch}"`;
+            return `"/Travel?url=${httpMatch}"`;
         }
         return match;
     });
