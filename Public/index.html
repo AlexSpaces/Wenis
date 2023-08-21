@@ -173,7 +173,7 @@
             spinner.style.display = 'inline-block';
             
             setTimeout(function() {
-                if (stealthMode && url) {
+                if (stealthMode == true && url) {
                     return fetch('https://wenis.lol/Travel', {
                         method: 'GET',
                         headers: {
@@ -182,7 +182,7 @@
                         }
                     })
                 }
-                if (url) {
+                if (url && stealthMode == false) {
                     window.location.href = `https://wenis.lol/Travel?url=${url}`;
                 } else {
                     alert('Please enter a valid URL.');
