@@ -45,7 +45,7 @@ const server = http.createServer((req, res) => {
             })
             break;
 
-            // Reverse Proxy Endpoint
+        // Reverse Proxy Endpoint
         case '/Travel':
             if (req.headers['ToProxyUrl']) {
                 var toProxy = req.headers['ToProxyUrl'];
@@ -56,13 +56,13 @@ const server = http.createServer((req, res) => {
                             'Content-Type': 'text/html'
                         });
                         res.write(modifiedHtml);
-                        res.end();
+                        return res.end();
                     })
                     .catch(error => {
                         console.error(error);
                         res.writeHead(500);
                         res.write(`Error proxying the URL.\n${error.code}`);
-                        res.end();
+                        return res.end();
                     });
             };
             if (qs['url']) {
@@ -74,18 +74,18 @@ const server = http.createServer((req, res) => {
                             'Content-Type': 'text/html'
                         });
                         res.write(modifiedHtml);
-                        res.end();
+                        return res.end();
                     })
                     .catch(error => {
                         console.error(error);
                         res.writeHead(500);
                         res.write(`Error proxying the URL.\n${error.code}`);
-                        res.end();
+                        return res.end();
                     });
             } else {
                 res.writeHead(400);
                 res.write('Missing Query String Parameters.');
-                res.end();
+                return res.end();
             }
             break;
 
