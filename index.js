@@ -26,7 +26,7 @@ const server = http.createServer((req, res) => {
     switch (spliturl[0]) {
         // Default Endpoint
         case '/':
-            res.header('Access-Control-Allow-Origin', '*');
+            res.setHeader('Access-Control-Allow-Origin', '*');
             fs.readFile('./Public/index.html', 'utf8', (error, data) => {
                 if (error) {
                     console.log(error);
@@ -48,7 +48,7 @@ const server = http.createServer((req, res) => {
 
         // Reverse Proxy Endpoint
         case '/Travel':
-            res.header('Access-Control-Allow-Origin', '*');
+            res.setHeader('Access-Control-Allow-Origin', '*');
             if (req.headers['ToProxyUrl']) {
                 var toProxy = req.headers['ToProxyUrl'];
                 axios.get(toProxy)
