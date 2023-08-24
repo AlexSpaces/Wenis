@@ -26,6 +26,7 @@ const server = http.createServer((req, res) => {
     switch (spliturl[0]) {
         // Default Endpoint
         case '/':
+            res.header('Access-Control-Allow-Origin', '*');
             fs.readFile('./Public/index.html', 'utf8', (error, data) => {
                 if (error) {
                     console.log(error);
