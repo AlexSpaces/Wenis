@@ -23,7 +23,7 @@ function replaceUrls(text, originalURL) {
 const server = http.createServer((req, res) => {
     var spliturl = req.url.split('?');
     var qs = querystring.decode(spliturl[1]);
-    req.setHeader('Access-Control-Allow-Origin', 'https://wenis.lol');
+    res.setHeader('Access-Control-Allow-Origin', 'https://wenis.lol');
     switch (spliturl[0]) {
         // Default Endpoint
         case '/':
