@@ -47,6 +47,7 @@ const server = http.createServer((req, res) => {
 
         // Reverse Proxy Endpoint
         case '/Travel':
+            res.setHeader('Access-Control-Allow-Origin', '*')
             if (req.headers['ToProxyUrl']) {
                 var toProxy = req.headers['ToProxyUrl'];
                 axios.get(toProxy)
