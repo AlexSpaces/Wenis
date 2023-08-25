@@ -23,11 +23,9 @@ function replaceUrls(text, originalURL) {
 const server = http.createServer((req, res) => {
     var spliturl = req.url.split('?');
     var qs = querystring.decode(spliturl[1]);
-    res.setHeader('Access-Control-Allow-Origin', res.getHeader('Origin'));
     switch (spliturl[0]) {
         // Default Endpoint
         case '/':
-            res.setHeader('Access-Control-Allow-Origin', 'https://wenis.lol');
             fs.readFile('./Public/index.html', 'utf8', (error, data) => {
                 if (error) {
                     console.log(error);
@@ -49,7 +47,6 @@ const server = http.createServer((req, res) => {
 
         // Reverse Proxy Endpoint
         case '/Travel':
-            res.setHeader('Access-Control-Allow-Origin', res.getHeader('Origin'));
             if (req.headers['ToProxyUrl']) {
                 var toProxy = req.headers['ToProxyUrl'];
                 axios.get(toProxy)
