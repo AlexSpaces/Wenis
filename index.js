@@ -1,11 +1,11 @@
 // Libraries
-const fs = require('fs');
-const http = require('http');
-const axios = require('axios');
-const querystring = require('querystring');
+const fs            = require('fs');
+const http          = require('http');
+const axios         = require('axios');
+const querystring   = require('querystring');
 
 // Regular expression pattern to match URLs
-const urlPattern = /['"`](.\/.+?|\/.+?)['"`]|['"`](http:\/\/.+?|https:\/\/.+?)['"`]/g;
+const urlPattern    = /['"`](.\/.+?|\/.+?)['"`]|['"`](http:\/\/.+?|https:\/\/.+?)['"`]/g;
 
 // Function to replace URLs with modified URLs
 function replaceUrls(text, originalURL, res) {
@@ -22,8 +22,8 @@ function replaceUrls(text, originalURL, res) {
 
 // Create http server
 const server = http.createServer((req, res) => {
-    var spliturl = req.url.split('?');
-    var qs = querystring.decode(spliturl[1]);
+    var spliturl    = req.url.split('?');
+    var qs          = querystring.decode(spliturl[1]);
     switch (spliturl[0]) {
         // Default Endpoint
         case '/':
