@@ -136,7 +136,7 @@
             const toggleSwitch = document.querySelector('.toggle-switch');
             // const encryptionAnimation = document.getElementById('encryptionAnimation');
             if (stealthMode == false) {
-                stealthMode = true;
+                // stealthMode = true;
                 toggleSwitch.classList.add('on');
                 setEncryptionAnimation(true);
             } else {
@@ -173,16 +173,16 @@
             spinner.style.display = 'inline-block';
             
             setTimeout(function() {
-                if (stealthMode == true && url) {
-                    return fetch('https://wenis.lol/Travel', {
-                        method: 'GET',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            // 'Access-Control-Allow-Origin': 'https://wenis.lol',
-                            'ToProxyUrl': url
-                        }
-                    })
-                }
+                // if (stealthMode == true && url) {
+                //     return fetch('https://wenis.lol/Travel', {
+                //         method: 'GET',
+                //         headers: {
+                //             'Content-Type': 'application/json',
+                //             'Access-Control-Allow-Origin': '*',
+                //             'ToProxyUrl': url
+                //         }
+                //     })
+                // }
                 if (url && stealthMode == false) {
                     window.location.href = `https://wenis.lol/Travel?url=${url}`;
                 } else {
