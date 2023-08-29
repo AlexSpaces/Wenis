@@ -5,7 +5,7 @@ const axios = require('axios');
 const querystring = require('querystring');
 
 // Regular expression pattern to match URLs
-const urlPattern = /['"`].\/(.+?)['"`]|['"`]\/(.+?)['"`]|['"`](http:\/\/.+?|https:\/\/.+?)['"`]/g;
+const urlPattern = /['"`].\/(.+)|\/(.+?)['"`]|['"`](http:\/\/.+?|https:\/\/.+?)['"`]/g;
 
 // Function to replace URLs with modified URLs
 function replaceUrls(text, originalURL) {
