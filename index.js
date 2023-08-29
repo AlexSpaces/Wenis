@@ -11,7 +11,7 @@ const urlPattern = /['"`].\/(.+?)['"`]|['"`]\/(.+?)['"`]|['"`](http:\/\/.+?|http
 function replaceUrls(text, originalURL) {
     return text.replace(urlPattern, (match, pathMatch, pathMatch2, httpMatch) => {
         if (pathMatch || pathMatch2) {
-            return `"/Travel?url=${originalURL}/${pathMatch}"`;
+            return `"/Travel?url=${originalURL}/${pathMatch||pathMatch2}"`;
         } else if (httpMatch) {
             return `"/Travel?url=${httpMatch}"`;
         }
