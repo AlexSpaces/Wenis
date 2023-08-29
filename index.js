@@ -9,12 +9,10 @@ const urlPattern = /['"`](.\/.+?|\/.+?)['"`]|['"`](http:\/\/.+?|https:\/\/.+?)['
 
 // Function to replace URLs with modified URLs
 function replaceUrls(text, originalURL, res) {
-    return text.replace(urlPattern, (match, pathMatch, pathMatch2, httpMatch) => {
-        process.stdout.write(`====\nMatch: ${match}\nPath Match: ${pathMatch}\nPath Match 2: ${pathMatch2}\nHttp Match: ${httpMatch}\n====\n\n`);
+    return text.replace(urlPattern, (match, pathMatch, httpMatch) => {
+        console.log(`====\nMatch: ${match}\nPath Match: ${pathMatch}\nPath Match 2: ${pathMatch2}\nHttp Match: ${httpMatch}\n====\n\n`);
         if (pathMatch) {
             return `"/Travel?url=${originalURL}/${pathMatch}"`;
-        } else if (pathMatch2) {
-            return `"/Travel?url=${originalURL}/${pathMatch2}"`;
         } else if (httpMatch) {
             return `"/Travel?url=${httpMatch}"`;
         }
@@ -31,7 +29,7 @@ const server = http.createServer((req, res) => {
         case '/':
             fs.readFile('./Public/index.html', 'utf8', (error, data) => {
                 if (error) {
-                    process.stdout.write(error);
+                    console.error(error);
                     res.writeHead(200, {
                         'Content-Type': 'text/plain'
                     });
@@ -73,10 +71,10 @@ const server = http.createServer((req, res) => {
                 axios.get(toProxy)
                     .then(response => {
                         const modifiedHtml = replaceUrls(response.data, toProxy, res);
-                        // res.writeHead(200, {
-                        //     'Content-Type': 'text/html'
-                        // });
-                        // res.write(modifiedHtml);
+                        res.writeHead(200, {
+                            'Content-Type': 'text/html'
+                        });
+                        res.write(modifiedHtml);
                         return res.end();
                     })
                     .catch(error => {
