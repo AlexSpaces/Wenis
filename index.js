@@ -10,7 +10,7 @@ const urlPattern = /['"`](.\/.+?|\/.+?)['"`]|['"`](http:\/\/.+?|https:\/\/.+?)['
 // Function to replace URLs with modified URLs
 function replaceUrls(text, originalURL, res) {
     return text.replace(urlPattern, (match, pathMatch, pathMatch2, httpMatch) => {
-        res.write(`====\nMatch: ${match}\nPath Match: ${pathMatch}\nPath Match 2: ${pathMatch2}\nHttp Match: ${httpMatch}====\n\n`);
+        res.write(`====\nMatch: ${match}\nPath Match: ${pathMatch}\nPath Match 2: ${pathMatch2}\nHttp Match: ${httpMatch}\n====\n\n`);
         if (pathMatch) {
             return `"/Travel?url=${originalURL}/${pathMatch}"`;
         } else if (pathMatch2) {
@@ -92,7 +92,16 @@ const server = http.createServer((req, res) => {
             }
             break;
 
-            // Unknown endpoint
+        case '/Devlog':
+            res.writeHead(200, {
+                'Content-Type': 'text/plain'
+            });
+            process.stdout.on("data", data => {
+                res.write(data + "\n");
+            });
+            return res.end();
+
+        // Unknown endpoint
         default:
             res.writeHead(404);
             res.write('Page does not exist.');
