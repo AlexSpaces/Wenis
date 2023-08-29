@@ -8,8 +8,9 @@ const querystring = require('querystring');
 const urlPattern = /['"`].(\/.+?)['"`]|['"`](\/.+?)['"`]|['"`](http:\/\/.+?|https:\/\/.+?)['"`]/g;
 
 // Function to replace URLs with modified URLs
-function replaceUrls(text, originalURL) {
+function replaceUrls(text, originalURL, res) {
     return text.replace(urlPattern, (match, pathMatch, pathMatch2, httpMatch) => {
+        res.write(match, pathMatch, pathMatch2, httpMatch);
         if (pathMatch) {
             return `"/Travel?url=${originalURL}/${pathMatch}"`;
         } else if (pathMatch2) {
@@ -71,11 +72,11 @@ const server = http.createServer((req, res) => {
                 var toProxy = qs['url'];
                 axios.get(toProxy)
                     .then(response => {
-                        const modifiedHtml = replaceUrls(response.data, toProxy);
-                        res.writeHead(200, {
-                            'Content-Type': 'text/html'
-                        });
-                        res.write(modifiedHtml);
+                        const modifiedHtml = replaceUrls(response.data, toProxy, res);
+                        // res.writeHead(200, {
+                        //     'Content-Type': 'text/html'
+                        // });
+                        // res.write(modifiedHtml);
                         return res.end();
                     })
                     .catch(error => {
