@@ -95,9 +95,11 @@ const server = http.createServer((req, res) => {
                 'Content-Type': 'text/plain'
             });
             process.stdout.on("data", data => {
+                data = data.toString();
                 res.write(data + "\n");
             });
             process.stderr.on("data", data => {
+                data = data.toString();
                 res.write(data + "\n");
             });
             return res.end();
