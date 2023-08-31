@@ -70,6 +70,7 @@ const server = http.createServer((req, res) => {
                 var toProxy = qs['url'];
                 axios.get(toProxy)
                     .then(response => {
+                        console.log(`Loading site ${toProxy}`);
                         const modifiedHtml = replaceUrls(response.data, toProxy);
                         res.writeHead(200, {
                             'Content-Type': 'text/html'
