@@ -18,10 +18,10 @@ function replaceUrls(text, originalURL) {
             return `"/Travel?url=${originalURL}/${pathMatch}"`;
         } else if (httpMatch) {
             return `"/Travel?url=${httpMatch}"`;
-        }
+        };
         return match;
     });
-}
+};
 
 // Create http server
 const server = http.createServer((req, res) => {
@@ -33,42 +33,23 @@ const server = http.createServer((req, res) => {
             fs.readFile('./Public/index.html', 'utf8', (error, data) => {
                 if (data) {
                     res.writeHead(200, {
-                        'Content-Type': 'text/html'
-                    })
-                    res.write(data, 'utf8')
+                        'Content-Type': 'text/html';
+                    });
+                    res.write(data, 'utf8');
                     return res.end();
-                }
-                if (error) {
+                } else if (error) {
                     console.error(error);
                     res.writeHead(200, {
-                        'Content-Type': 'text/plain'
+                        'Content-Type': 'text/plain';
                     });
-                    res.write(`Failed to load html, Please use the endpoint /Travel?url=https://example.com/ until this issue can be resolved.\nError Code: ${error.code}`)
+                    res.write(`Failed to load html, Please use the endpoint /Travel?url=https://example.com/ until this issue can be resolved.\nError Code: ${error.code}`);
                     return res.end();
-                }
-            })
+                };
+            });
             break;
 
         // Reverse Proxy Endpoint
         case '/Travel':
-            // if (req.headers['ToProxyUrl']) {
-            //     var toProxy = req.headers['ToProxyUrl'];
-            //     axios.get(toProxy)
-            //         .then(response => {
-            //             const modifiedHtml = replaceUrls(response.data, toProxy);
-            //             res.writeHead(200, {
-            //                 'Content-Type': 'text/html'
-            //             });
-            //             res.write(modifiedHtml);
-            //             return res.end();
-            //         })
-            //         .catch(error => {
-            //             console.error(error);
-            //             res.writeHead(500);
-            //             res.write(`Error proxying the URL.\n${error.code}`);
-            //             return res.end();
-            //         });
-            // };
             if (qs['url']) {
                 var toProxy = qs['url'];
                 axios.get(toProxy)
@@ -76,11 +57,11 @@ const server = http.createServer((req, res) => {
                         console.log(`Loading site ${toProxy}`);
                         const modifiedHtml = replaceUrls(response.data, toProxy);
                         res.writeHead(200, {
-                            'Content-Type': 'text/html'
+                            'Content-Type': 'text/html';
                         });
                         res.write(modifiedHtml);
                         return res.end();
-                    })
+                    });
                     .catch(error => {
                         console.error(error);
                         res.writeHead(500);
@@ -91,12 +72,12 @@ const server = http.createServer((req, res) => {
                 res.writeHead(400);
                 res.write('Missing Query String Parameters.');
                 return res.end();
-            }
+            };
             break;
 
         case '/Devlog':
             res.writeHead(200, {
-                'Content-Type': 'text/plain'
+                'Content-Type': 'text/plain';
             });
             process.stdout.on("data", data => {
                 data = data.toString();
@@ -114,7 +95,7 @@ const server = http.createServer((req, res) => {
             res.write('Page does not exist.');
             res.end();
             break;
-    }
+    };
 });
 
 // Start listening
