@@ -8,9 +8,9 @@ const querystring   = require('querystring');
 const urlPattern    = /['"`](.\/.+?|\/.+?)['"`]|['"`](http:\/\/.+?|https:\/\/.+?)['"`]/g;
 
 // Function to replace URLs with modified URLs
-function replaceUrls(text, originalURL, res) {
+function replaceUrls(text, originalURL) {
     return text.replace(urlPattern, (match, pathMatch, httpMatch) => {
-        console.log(`====\nMatch: ${match}\nPath Match: ${pathMatch}\nPath Match 2: ${pathMatch2}\nHttp Match: ${httpMatch}\n====\n\n`);
+        console.log(`====\nMatch: ${match}\nPath Match: ${pathMatch}\nREPLACEMENT: \"/Travel?url=${originalURL}/${pathMatch}\"\nHttp Match: ${httpMatch}\nREPLACEMENT: \"/Travel?url=${httpMatch}\"\n====\n\n`);
         if (pathMatch) {
             return `"/Travel?url=${originalURL}/${pathMatch}"`;
         } else if (httpMatch) {
@@ -28,20 +28,20 @@ const server = http.createServer((req, res) => {
         // Default Endpoint
         case '/':
             fs.readFile('./Public/index.html', 'utf8', (error, data) => {
+                if (data) {
+                    res.writeHead(200, {
+                        'Content-Type': 'text/html'
+                    })
+                    res.write(data, 'utf8')
+                    return res.end();
+                }
                 if (error) {
                     console.error(error);
                     res.writeHead(200, {
                         'Content-Type': 'text/plain'
                     });
                     res.write(`Failed to load html, Please use the endpoint /Travel?url=https://example.com/ until this issue can be resolved.\nError Code: ${error.code}`)
-                    res.end();
-                }
-                if (data) {
-                    res.writeHead(200, {
-                        'Content-Type': 'text/html'
-                    })
-                    res.write(data, 'utf8')
-                    res.end();
+                    return res.end();
                 }
             })
             break;
@@ -70,7 +70,7 @@ const server = http.createServer((req, res) => {
                 var toProxy = qs['url'];
                 axios.get(toProxy)
                     .then(response => {
-                        const modifiedHtml = replaceUrls(response.data, toProxy, res);
+                        const modifiedHtml = replaceUrls(response.data, toProxy);
                         res.writeHead(200, {
                             'Content-Type': 'text/html'
                         });
