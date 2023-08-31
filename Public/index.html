@@ -133,18 +133,20 @@
         let stealthMode = false;
 
         function toggleStealthMode() {
-            const toggleSwitch = document.querySelector('.toggle-switch');
-            // const encryptionAnimation = document.getElementById('encryptionAnimation');
-            if (stealthMode == false) {
-                stealthMode = true;
-                toggleSwitch.classList.add('on');
-                setEncryptionAnimation(true);
-            } else {
-                stealthMode = false;
-                toggleSwitch.classList.remove('on');
-                setEncryptionAnimation(false);
-            }
-        }
+            const enabled = false;
+            if (enabled == true) {
+                const toggleSwitch = document.querySelector('.toggle-switch');
+                if (stealthMode == false) {
+                    stealthMode = true;
+                    toggleSwitch.classList.add('on');
+                    setEncryptionAnimation(true);
+                } else {
+                    stealthMode = false;
+                    toggleSwitch.classList.remove('on');
+                    setEncryptionAnimation(false);
+                };
+            };
+        };
 
         function setEncryptionAnimation(bool) {
             const container = document.querySelector('.container');
