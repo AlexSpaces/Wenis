@@ -14,8 +14,13 @@ function replaceUrls(text, originalURL) {
         if (pathMatch) {
             if (originalURL.slice(-1) == '/') {
                 originalURL = originalURL.slice(0, -1);
-            } else if (pathMatch.slice(0, 1) == '/') {
+            };
+            if (pathMatch.slice(0, 1) == '/') {
                 pathMatch = pathMatch.slice(1, -1);
+            };
+
+            if (originalURL.slice(-1) ~= '/' && pathMatch.slice(0, 1) ~= '/') {
+                originalURL = originalURL + '/'
             };
             return `"/Travel?url=${originalURL}${pathMatch}"`;
         } else if (httpMatch) {
