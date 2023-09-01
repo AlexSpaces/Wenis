@@ -17,7 +17,7 @@ function replaceUrls(text, originalURL) {
             } else if (pathMatch.slice(0, 1) == '/') {
                 pathMatch = pathMatch.slice(1, -1);
             };
-            return `"/Travel?url=${originalURL}/${pathMatch}"`;
+            return `"/Travel?url=${originalURL}${pathMatch}"`;
         } else if (httpMatch) {
             return `"/Travel?url=${httpMatch}"`;
         };
