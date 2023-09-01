@@ -12,10 +12,10 @@ function replaceUrls(text, originalURL) {
     return text.replace(urlPattern, (match, pathMatch, httpMatch) => {
         console.log(`====\nMatch: ${match}\nPath Match: ${pathMatch}\nREPLACEMENT: \"/Travel?url=${originalURL}/${pathMatch}\"\nHttp Match: ${httpMatch}\nREPLACEMENT: \"/Travel?url=${httpMatch}\"\n====\n\n`);
         if (pathMatch) {
-            if (pathMatch.slice(1, 1) == '/' && originalURL.splice(-1) ~= '/') {
-                return `"/Travel?url=${originalURL}${pathMatch.slice(1, -1)}"`;
-            } else if (originalURL.splice(-1) == '/' && pathMatch.slice(1, 1) ~= '/') {
-                return `"/Travel?url=${originalURL.slice(1, -1)}${pathMatch}"`;
+            if (originalURL.slice(-1) == '/') {
+                originalURL = originalURL.slice(0, -1);
+            } else if (pathMatch.slice(0, 1) == '/') {
+                pathMatch = pathMatch.slice(1, -1);
             };
             return `"/Travel?url=${originalURL}/${pathMatch}"`;
         } else if (httpMatch) {
