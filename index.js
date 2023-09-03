@@ -4,8 +4,9 @@ const http          = require('http');
 const axios         = require('axios');
 const querystring   = require('querystring');
 
-// Regular expression pattern to match URLs
+// Variables
 const urlPattern    = /['"`](.\/.+?|\/.+?)['"`]|['"`](http:\/\/.+?|https:\/\/.+?)['"`]/g;
+const apiKey        = process.env.API_KEY;
 
 // Function to replace URLs with modified URLs
 function replaceUrls(text, originalURL) {
@@ -18,7 +19,6 @@ function replaceUrls(text, originalURL) {
             if (pathMatch.slice(0, 1) == '/') {
                 pathMatch = pathMatch.slice(1);
             };
-
             if (originalURL.slice(-1) != '/' && pathMatch.slice(0, 1) != '/') {
                 originalURL = originalURL + '/'
             };
@@ -71,7 +71,9 @@ const server = http.createServer((req, res) => {
                     });
                     .catch(error => {
                         console.error(error);
-                        res.writeHead(500);
+                        res.writeHead(500, {
+                            'Content-Type': 'text/plain';
+                        });
                         res.write(`Error proxying the URL.\n${error.code}`);
                         return res.end();
                     });
@@ -82,20 +84,26 @@ const server = http.createServer((req, res) => {
             };
             break;
 
-        case '/Devlog':
-            res.writeHead(200, {
-                'Content-Type': 'text/plain';
-            });
-            process.stdout.on("data", data => {
-                data = data.toString();
-                res.write(data + "\n");
-            });
-            process.stderr.on("data", data => {
-                data = data.toString();
-                res.write(data + "\n");
-            });
-            return res.end();
-
+        // Logging Endpoint
+        case '/logs':
+            if (req.headers['api_key']) {
+                if (req.headers['API_KEY'] == apiKey) {
+                    res.writeHead(200, {
+                        'Content-Type': 'text/plain';
+                    })
+                    res.write('Authenticated!');
+                    res.end();
+                } else {
+                    res.writeHead(403, {
+                        'Content-Type': 'text/plain';
+                    });
+                    res.write('Invalid API Key.');
+                    res.end();
+                };
+            } else {
+                res.write('<script>prompt(\'Enter API Key\')</script>');
+                res.end();
+            };
         // Unknown endpoint
         default:
             res.writeHead(404);
