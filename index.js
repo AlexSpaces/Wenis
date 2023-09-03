@@ -92,17 +92,20 @@ const server = http.createServer((req, res) => {
                         'Content-Type': 'text/plain';
                     });
                     res.write('Successfully Authenticated!');
+                    res.end();
                 } else {
                     res.writeHead(403, {
                         'Content-Type': 'text/plain';
                     });
                     res.write('Invalid API Key.');
+                    res.end();
                 };
             } else {
                 res.writeHead(400, {
                     'Content-Type': 'text/plain';
                 });
                 res.write('Missing Query String Parameters.')
+                res.end()
             };
 
         // Unknown endpoint
