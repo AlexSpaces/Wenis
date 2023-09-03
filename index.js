@@ -64,7 +64,7 @@ const server = http.createServer((req, res) => {
                         console.log(`Loading site ${toProxy}`);
                         const modifiedHtml = replaceUrls(response.data, toProxy);
                         res.writeHead(200, {
-                            'Content-Type': 'text/html'
+                            'Content-Type': req.headers['Content-Type']
                         });
                         res.write(modifiedHtml);
                         return res.end();
