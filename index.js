@@ -86,24 +86,25 @@ const server = http.createServer((req, res) => {
 
         // Logging Endpoint
         case '/logs':
-            if (req.headers['api_key']) {
-                if (req.headers['API_KEY'] == apiKey) {
+            if (qs['api_key']) {
+                if (qs['api_key'] == apiKey) {
                     res.writeHead(200, {
                         'Content-Type': 'text/plain';
-                    })
-                    res.write('Authenticated!');
-                    res.end();
+                    });
+                    res.write('Successfully Authenticated!');
                 } else {
                     res.writeHead(403, {
                         'Content-Type': 'text/plain';
                     });
                     res.write('Invalid API Key.');
-                    res.end();
                 };
             } else {
-                res.write('<script>prompt(\'Enter API Key\')</script>');
-                res.end();
+                res.writeHead(400, {
+                    'Content-Type': 'text/plain';
+                });
+                res.write('Missing Query String Parameters.')
             };
+            
         // Unknown endpoint
         default:
             res.writeHead(404);
