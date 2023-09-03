@@ -60,14 +60,15 @@ const server = http.createServer((req, res) => {
         case '/Travel':
             if (qs['url']) {
                 var toProxy = qs['url'];
+                res.write(mime.lookup(toProxy))
                 axios.get(toProxy)
                     .then(response => {
                         console.log(`Loading site ${toProxy}`);
                         const modifiedHtml = replaceUrls(response.data, toProxy);
                         res.writeHead(200, {
-                            'Content-Type': mime.lookup(toProxy) || 'text/html'
+                            'Content-Type': 'text/html'
                         });
-                        res.write(mime.lookup(toProxy));
+                        // res.write(modifiedHtml);
                         return res.end();
                     })
                     .catch(error => {
