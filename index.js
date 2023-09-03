@@ -85,7 +85,7 @@ const server = http.createServer((req, res) => {
             break;
 
         // Logging Endpoint
-        case '/logs':
+        case '/Logs':
             if (qs['api_key']) {
                 if (qs['api_key'] == apiKey) {
                     res.writeHead(200, {
@@ -104,7 +104,7 @@ const server = http.createServer((req, res) => {
                 });
                 res.write('Missing Query String Parameters.')
             };
-            
+
         // Unknown endpoint
         default:
             res.writeHead(404);
