@@ -107,6 +107,7 @@ const server = http.createServer((req, res) => {
                 res.write('Missing Query String Parameters.')
                 res.end()
             };
+            break;
 
         // Unknown endpoint
         default:
