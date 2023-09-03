@@ -2,6 +2,7 @@
 const fs            = require('fs');
 const http          = require('http');
 const axios         = require('axios');
+const mime          = require('mime-types')
 const querystring   = require('querystring');
 
 // Variables
@@ -64,7 +65,7 @@ const server = http.createServer((req, res) => {
                         console.log(`Loading site ${toProxy}`);
                         const modifiedHtml = replaceUrls(response.data, toProxy);
                         res.writeHead(200, {
-                            'Content-Type': req.headers['Content-Type']
+                            'Content-Type': mime.lookup(toProxy) || 'text/html'
                         });
                         res.write(modifiedHtml);
                         return res.end();
