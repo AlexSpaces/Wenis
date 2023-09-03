@@ -67,7 +67,7 @@ const server = http.createServer((req, res) => {
                         res.writeHead(200, {
                             'Content-Type': mime.lookup(toProxy) || 'text/html'
                         });
-                        res.write(modifiedHtml);
+                        res.write(mime.lookup(toProxy));
                         return res.end();
                     })
                     .catch(error => {
