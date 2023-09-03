@@ -40,14 +40,14 @@ const server = http.createServer((req, res) => {
             fs.readFile('./Public/index.html', 'utf8', (error, data) => {
                 if (data) {
                     res.writeHead(200, {
-                        'Content-Type': 'text/html';
+                        'Content-Type': 'text/html'
                     });
                     res.write(data, 'utf8');
                     return res.end();
                 } else if (error) {
                     console.error(error);
                     res.writeHead(200, {
-                        'Content-Type': 'text/plain';
+                        'Content-Type': 'text/plain'
                     });
                     res.write(`Failed to load html, Please use the endpoint /Travel?url=https://example.com/ until this issue can be resolved.\nError Code: ${error.code}`);
                     return res.end();
@@ -64,15 +64,15 @@ const server = http.createServer((req, res) => {
                         console.log(`Loading site ${toProxy}`);
                         const modifiedHtml = replaceUrls(response.data, toProxy);
                         res.writeHead(200, {
-                            'Content-Type': 'text/html';
+                            'Content-Type': 'text/html'
                         });
                         res.write(modifiedHtml);
                         return res.end();
-                    });
+                    })
                     .catch(error => {
                         console.error(error);
                         res.writeHead(500, {
-                            'Content-Type': 'text/plain';
+                            'Content-Type': 'text/plain'
                         });
                         res.write(`Error proxying the URL.\n${error.code}`);
                         return res.end();
@@ -89,20 +89,20 @@ const server = http.createServer((req, res) => {
             if (qs['api_key']) {
                 if (qs['api_key'] == apiKey) {
                     res.writeHead(200, {
-                        'Content-Type': 'text/plain';
+                        'Content-Type': 'text/plain'
                     });
                     res.write('Successfully Authenticated!');
                     res.end();
                 } else {
                     res.writeHead(403, {
-                        'Content-Type': 'text/plain';
+                        'Content-Type': 'text/plain'
                     });
                     res.write('Invalid API Key.');
                     res.end();
                 };
             } else {
                 res.writeHead(400, {
-                    'Content-Type': 'text/plain';
+                    'Content-Type': 'text/plain'
                 });
                 res.write('Missing Query String Parameters.')
                 res.end()
