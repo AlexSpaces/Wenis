@@ -16,10 +16,10 @@ function replaceUrls(text, originalURL) {
                 originalURL = originalURL.slice(0, -1);
             };
             if (pathMatch.slice(0, 1) == '/') {
-                pathMatch = pathMatch.slice(1, -1);
+                pathMatch = pathMatch.slice(1);
             };
 
-            if (originalURL.slice(-1) ~= '/' && pathMatch.slice(0, 1) ~= '/') {
+            if (originalURL.slice(-1) != '/' && pathMatch.slice(0, 1) != '/') {
                 originalURL = originalURL + '/'
             };
             return `"/Travel?url=${originalURL}${pathMatch}"`;
