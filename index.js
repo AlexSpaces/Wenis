@@ -113,7 +113,7 @@ const server = http.createServer((req, res) => {
                 res.writeHead(400, {
                     'Content-Type': 'text/plain'
                 });
-                res.write('No API Key.');
+                res.write('No API Key. Contact Tech@wenis.lol if you\'ve encountered this error.');
                 res.end();
             };
             break;
