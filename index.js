@@ -12,7 +12,6 @@ const apiKey        = process.env.API_KEY;
 // Function to replace URLs with modified URLs
 function replaceUrls(text, originalURL) {
     return text.replace(urlPattern, (match, pathMatch, httpMatch) => {
-        console.log(`====\nMatch: ${match}\nPath Match: ${pathMatch}\nREPLACEMENT: \"/Travel?url=${originalURL}/${pathMatch}\"\nHttp Match: ${httpMatch}\nREPLACEMENT: \"/Travel?url=${httpMatch}\"\n====\n\n`);
         if (pathMatch) {
             if (originalURL.slice(-1) == '/') {
                 originalURL = originalURL.slice(0, -1);
@@ -64,7 +63,7 @@ const server = http.createServer((req, res) => {
                 axios.get(toProxy)
                     .then(response => {
                         console.log(`Loading site ${toProxy}`);
-                        const modifiedHtml = replaceUrls(response.data, toProxy);
+                        const modifiedHtml = replaceUrls(response.data, toProxy, res);
                         res.writeHead(200, {
                             'Content-Type': 'text/html'
                         });
@@ -86,7 +85,7 @@ const server = http.createServer((req, res) => {
             };
             break;
 
-        // Logging Endpoint
+        // Console Logging Endpoint
         case '/Logs':
             if (apiKey) {
                 if (qs['api_key']) {
@@ -94,7 +93,7 @@ const server = http.createServer((req, res) => {
                         res.writeHead(200, {
                             'Content-Type': 'text/plain'
                         });
-                        res.write('Successfully Authenticated!');
+                        res.write('Successfully Authenticated! Note: This page is currently under construction.');
                         res.end();
                     } else {
                         res.writeHead(403, {
@@ -114,7 +113,7 @@ const server = http.createServer((req, res) => {
                 res.writeHead(400, {
                     'Content-Type': 'text/plain'
                 });
-                res.write('API Key not set.');
+                res.write('No API Key.');
                 res.end();
             };
             break;
