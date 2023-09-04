@@ -7,7 +7,7 @@ const querystring   = require('querystring');
 
 // Variables
 const urlPattern    = /['"`](.\/.+?|\/.+?)['"`]|['"`](http:\/\/.+?|https:\/\/.+?)['"`]/g;
-const schemePattern = /(http:\/\/|https:\/\/)\g;
+const schemePattern = /(http:\/\/|https:\/\/)/g;
 const apiKey        = process.env.API_KEY;
 
 // Function to replace URLs with modified URLs
