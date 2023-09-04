@@ -7,6 +7,7 @@ const querystring   = require('querystring');
 
 // Variables
 const urlPattern    = /['"`](.\/.+?|\/.+?)['"`]|['"`](http:\/\/.+?|https:\/\/.+?)['"`]/g;
+const schemePattern = /(http:\/\/|https:\/\/)\g;
 const apiKey        = process.env.API_KEY;
 
 // Function to replace URLs with modified URLs
@@ -59,7 +60,8 @@ const server = http.createServer((req, res) => {
         case '/Travel':
             if (qs['url']) {
                 var toProxy = qs['url'];
-                res.write(mime.lookup(toProxy))
+
+                res.write(mime.lookup(toProxy.replace(schemePattern, '')));
                 axios.get(toProxy)
                     .then(response => {
                         console.log(`Loading site ${toProxy}`);
