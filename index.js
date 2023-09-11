@@ -61,7 +61,7 @@ const server = http.createServer((req, res) => {
             if (qs['url']) {
                 var toProxy = qs['url'];
 
-                res.write(mime.lookup(toProxy.replace(schemePattern, '')));
+                res.write(`Original: ${mime.lookup(toProxy)}\n Modified: ${mime.lookup(toProxy.replace(schemePattern, ''))}`);
                 axios.get(toProxy)
                     .then(response => {
                         console.log(`Loading site ${toProxy}`);
