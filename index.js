@@ -2,7 +2,7 @@
 const fs            = require('fs');
 const http          = require('http');
 const axios         = require('axios');
-const mime          = require('mime-types')
+const mime          = require('mime-types');
 const querystring   = require('querystring');
 
 // Variables
